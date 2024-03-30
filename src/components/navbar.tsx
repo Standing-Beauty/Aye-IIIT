@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
@@ -11,12 +12,12 @@ function navbar({ className }: { className?: string }) {
   const handleClick = (id: string) => {
     const yOffset = -150; // Adjust this value to offset the height of your navbar
     const element = document.getElementById(id);
-    const y = element?.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    const y =
+      element?.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: "smooth" });
     setActive(id); // Set active menu item if needed
   };
-
-
+  const router = useRouter();
   return (
     <div
       className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
@@ -25,8 +26,9 @@ function navbar({ className }: { className?: string }) {
         <button onClick={() => handleClick("about")}>About</button>
         <button onClick={() => handleClick("members")}>Members</button>
         <button onClick={() => handleClick("faqs")}>FAQs</button>
-        <button onClick={() => handleClick("gallery")}>Gallery</button>
+        <button onClick={() => router.push("./gallery")}>Gallery</button>
         {/* <Link href="#members">
+
           <MenuItem
             setActive={setActive}
             active={active}
@@ -34,7 +36,6 @@ function navbar({ className }: { className?: string }) {
           ></MenuItem>
         </Link> */}
 
-        
         {/* <Link href="#faqs">
           <MenuItem
             setActive={setActive}
@@ -50,14 +51,9 @@ function navbar({ className }: { className?: string }) {
             item="Gallery"
           ></MenuItem>
         </Link> */}
-
-
       </Menu>
     </div>
   );
 }
 
 export default navbar;
-
-
-
